@@ -14,7 +14,7 @@ OpenCore EFI для **Lenovo ThinkBook G7+ ASP** (AMD Ryzen AI, Strix Point, Rad
 | Ноутбук | Lenovo ThinkBook G7+ ASP |
 | CPU | AMD Ryzen AI (Strix Point, Zen 5) |
 | GPU | AMD Radeon 880M (RDNA 3.5, GC 11.5.0, PCI `1002:150E`) |
-| Экран | 3072x1920, 30–120 Гц (сейчас работает 60 Гц) |
+| Экран | 3072x1920, 30–120 Гц (работает 120 Гц) |
 | Wi-Fi / BT | MediaTek MT7925 |
 | Тачпад | I2C HID `GXTP5100` (`\_SB.I2CA.TPDG`), прерывание через AMD GPIO `AMDI0030`, пин 8 |
 | SMBIOS | `MacBookPro16,1` |
@@ -30,11 +30,11 @@ OpenCore EFI для **Lenovo ThinkBook G7+ ASP** (AMD Ryzen AI, Strix Point, Rad
 | Клавиатура | ✅ (VoodooPS2) |
 | Батарея | ✅ (SMCBatteryManager + ECEnabler) |
 | NVMe | ✅ (NVMeFix) |
-| **Графика: StrixArc (эксперимент)** | ⚠️ Metal на Radeon 880M, WindowServer на GPU, родные 3K@60 |
+| **Графика: StrixArc (эксперимент)** | ⚠️ Metal на Radeon 880M, WindowServer на GPU, родные 3K@120 (eDP-линк перетренирован на HBR3) |
 | Bluetooth | ❌ |
 | Звук | ❌ |
 | Сон | ❌ / не проверялся |
-| 120 Гц, внешние мониторы, подсветка экрана | ❌ |
+| Внешние мониторы, подсветка экрана | ❌ |
 
 ## Экспериментальный транслятор StrixArc
 
@@ -44,7 +44,7 @@ MES + KIQ, очереди gfx/compute), а Metal работает поверх V
 
 - В EFI лежит только `PhxBringup.kext`. Остальное (PhxAccel в Auxiliary KC, Metal-плагин, загрузочный демон `phxboot`)
   ставится из macOS скриптами StrixArc — см. [README StrixArc](https://github.com/Asada8851/StrixArc/blob/main/README_RU.md).
-- Кадр на экран копирует SDMA в один из двух буферов, экран переключается по vsync: ~61,7 fps в 3K без разрывов.
+- Кадр на экран копирует SDMA в один из двух буферов, экран переключается по vsync: 3K@120 без разрывов; eDP-линк перетренирован на HBR3.
 - Аварийное выключение драйвера: boot-arg **`-phxbringupoff`** (или убрать `-phxexperimental`).
 - Без установленной части StrixArc macOS работает на фреймбуфере прошивки (без ускорения).
 
@@ -111,7 +111,8 @@ phxdebug=1 -phxexperimental amfi=0x80 amfi_get_out_of_my_way=0x1 -amfipassbeta i
 - [ ] Звук
 - [ ] Сон / пробуждение
 - [ ] Подсветка экрана и её регулировка
-- [ ] StrixArc: 120 Гц (перетренировка eDP-линка на HBR3), видео, внешние мониторы
+- [x] StrixArc: 120 Гц (перетренировка eDP-линка на HBR3)
+- [ ] StrixArc: видео, внешние мониторы
 - [ ] Карта USB-портов, веб-камера, кард-ридер, прочие мелочи
 
 ## Версии
